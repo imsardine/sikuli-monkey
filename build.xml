@@ -1,0 +1,37 @@
+<project>
+  <property environment="env" />
+  <property name="android.home" value="${env.ANDROID_HOME}" />
+  <property name="sikuli.home" value="${env.SIKULI_HOME}" />
+
+  <target name="clean">
+    <delete dir="target" />
+  </target>
+
+  <target name="compile">
+    <mkdir dir="target/classes" />
+    <javac srcdir="src/main/java" destdir="target/classes" debug="on">
+      <classpath>
+        <pathelement location="${sikuli.home}/sikuli-script.jar" />
+        <fileset dir="${android.home}/tools/lib">
+          <include name="guavalib.jar" />
+          <include name="monkeyrunner.jar" />
+        </fileset>
+      </classpath>
+    </javac>
+    <copy todir="target/classes">
+        <fileset dir="src/main/resources">
+            <exclude name="**/*.class" />
+        </fileset>
+    </copy>
+  </target>
+
+  <target name="jar" depends="clean,compile">
+    <mkdir dir="target" />
+    <jar destfile="target/sikuli-monkey.jar" basedir="target/classes">
+      <manifest>
+        <attribute name="MonkeyRunnerStartupRunner" value="com.simplbug.sikulimonkey.MonkeyPlugin" />
+      </manifest>
+    </jar>
+  </target>
+</project>
+

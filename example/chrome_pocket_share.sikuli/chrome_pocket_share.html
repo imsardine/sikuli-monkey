@@ -1,0 +1,128 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }  
+         
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>chrome_pocket_share.sikuli</h2> <a href="chrome_pocket_share.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="kw">import</span> unittest
+<span class="kw">from</span> andwalker <span class="kw">import</span> MonkeySikuliDevice
+
+CHROME_PACKAGE = <span class="str">'com.android.chrome'</span>
+POCKET_PACKAGE = <span class="str">'com.ideashower.readitlater.pro'</span>
+
+<span class="kw">class</span> ChromePocketTest(unittest.TestCase):
+
+    <span class="kw">def</span> setUp(self):
+        self._device = MonkeySikuliDevice(DEVICE_SERIAL_NUMBER, SCREEN)
+        self.reset_pocket()
+        self._device.open_app(CHROME_PACKAGE)
+
+    <span class="kw">def</span> test_chrome_pocket_share(self):
+        <span class="kw">if</span> <span class="kw">not</span> exists(<img src="chrome_tabs_button_none.png" />): self.close_all_tabs()
+        tap(<img src="chrome_new_tab_button.png" />)
+        <span class="skw">type</span>(<img src="chrome_address_bar.png" />, <span class="str">'gtac2014'</span>)
+        tap(<img src="keyboard_go.png" />) <span class="cmt"># soft keyboard</span>
+        tap(Pattern(<img src="chrome_search_result.png" />).targetOffset(-<span class="dig">123</span>,-<span class="dig">17</span>))
+        <span class="skw">wait</span>(<img src="gtac_banner.png" />)
+        pressMenu()
+        tap(<img src="chrome_share_menu.png" />)
+        tap(<img src="chrome_add_to_pocket.png" />)
+        tap(<img src="pocket_icon_float.png" />) <span class="cmt"># then Pocket opens</span>
+        <span class="kw">assert</span> exists(<img src="pocket_list.png" />)
+
+
+    <span class="kw">def</span> reset_pocket(self):
+        <span class="str">"""To make sure Pocket is initialized and the list is empty."""</span>
+        self._device.clear_app(POCKET_PACKAGE)
+        self._device.open_app(POCKET_PACKAGE,
+            <span class="str">'com.ideashower.readitlater.activity.AppCacheCheckActivity'</span>)
+        tap(<img src="pocket_login.png" />)
+        <span class="skw">type</span>(<img src="pocket_username.png" />,<span class="str">'imsardine.test@gmail.com'</span>)
+        <span class="skw">type</span>(<img src="pocket_password.png" />, <span class="str">'passw@rd'</span>)
+        tap(<img src="pocket_login_yellow.png" />)
+        <span class="skw">wait</span>(<img src="pocket_welcome.png" />)
+        <span class="kw">for</span> _ <span class="kw">in</span> range(<span class="dig">3</span>):
+            tap(<img src="pocket_next.png" />)
+        tap(<img src="pocket_view_your_list.png" />)
+        <span class="skw">wait</span>(<img src="pocket_list_is_empty.png" />)
+
+    <span class="kw">def</span> close_all_tabs(self):
+        <span class="str">"""For the sake of demostartion, because the UI for switching tabs
+           is not accessible.
+        """</span>
+        tap(Pattern(<img src="chrome_tabs_button.png" />).targetOffset(<span class="dig">53</span>,<span class="dig">5</span>)) <span class="cmt"># target offset</span>
+        <span class="kw">for</span> _ <span class="kw">in</span> findAll(<img src="chrome_tab_close.png" />):
+            tap(<img src="chrome_tab_close.png" />)
+        <span class="kw">assert</span> exists(<img src="chrome_tabs_button_none.png" />)
+
+<span class="kw">if</span> __name__ == <span class="str">'__main__'</span>:
+    unittest.main()
+</pre>
+</body>
+</html>

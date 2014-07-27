@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#export JAVA_HOME=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
+#export SIKULI_HOME=/Applications/Sikuli-IDE.app/Contents/Resources/Java/
+SCRIPT_DIR=`dirname $0`
+export PYTHONPATH=$SCRIPT_DIR/lib
+SIKULI_PLUGIN_JAR=$SCRIPT_DIR/target/sikuli-monkey.jar
+SIKULI_SCRIPT_JAR=$SIKULI_HOME/sikuli-script.jar
+
+$ANDROID_HOME/tools/monkeyrunner -plugin $SIKULI_PLUGIN_JAR -plugin $SIKULI_SCRIPT_JAR "$1"
