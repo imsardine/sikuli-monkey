@@ -3,7 +3,7 @@ sikuli-monkey
 
 An extension of [Sikuli](http://www.sikuli.org/) that enables running scripts against real Android devices without rooting them.
 
-We all knows object-based (or component-based) testing tools are preferred, but at times image-baased tools are needed as a complementary or fallback solution. Sikuli is a great image-based testing tool for many kinds of applications, if (and only if) users can interact with them on the desktop. 
+We all knows object-based (or component-based) testing tools are preferred, but at times image-based tools are needed as a complementary or fallback solution. Sikuli is a great image-based testing tool for many kinds of applications, if (and only if) users can interact with them on the desktop. 
 
 For the problem of Sikuli on Android devices, there exist some approaches:
 
